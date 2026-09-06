@@ -23,18 +23,10 @@ import {
 import "../styles/Auth.css";
 import "../styles/GoogleLogin.css";
 
-/* =========================================================
-   STORAGE KEYS
-========================================================= */
-
 const TOKEN_KEY = "atsLensToken";
 const USER_KEY = "atsLensUser";
 const REMEMBER_EMAIL_KEY =
   "atsLensRememberEmail";
-
-/* =========================================================
-   LOGIN
-========================================================= */
 
 const Login = () => {
   const navigate = useNavigate();
@@ -61,13 +53,21 @@ const Login = () => {
   const [error, setError] =
     useState("");
 
-  /* =======================================================
-     THEME
-  ======================================================= */
-
   const [theme, setTheme] =
     useState<"dark" | "light">(
       () => {
+        const savedTheme =
+          localStorage.getItem(
+            "atsLensTheme"
+          );
+
+        if (
+          savedTheme === "light" ||
+          savedTheme === "dark"
+        ) {
+          return savedTheme;
+        }
+
         const current =
           document.documentElement
             .dataset.theme;
@@ -81,11 +81,12 @@ const Login = () => {
   useEffect(() => {
     document.documentElement.dataset.theme =
       theme;
-  }, [theme]);
 
-  /* =======================================================
-     EXISTING AUTH
-  ======================================================= */
+    localStorage.setItem(
+      "atsLensTheme",
+      theme
+    );
+  }, [theme]);
 
   const existingToken =
     localStorage.getItem(
@@ -95,25 +96,20 @@ const Login = () => {
       TOKEN_KEY
     );
 
-  /* =======================================================
-     REMEMBERED EMAIL
-  ======================================================= */
-
   useEffect(() => {
-    const remembered =
+    const rememberedEmail =
       localStorage.getItem(
         REMEMBER_EMAIL_KEY
       );
 
-    if (remembered) {
-      setEmail(remembered);
+    if (rememberedEmail) {
+      setEmail(
+        rememberedEmail
+      );
+
       setRememberMe(true);
     }
   }, []);
-
-  /* =======================================================
-     SAVE AUTH
-  ======================================================= */
 
   const saveAuthData = (
     token: string,
@@ -161,10 +157,6 @@ const Login = () => {
     }
   };
 
-  /* =======================================================
-     NORMAL LOGIN
-  ======================================================= */
-
   const handleSubmit = async (
     event: FormEvent<HTMLFormElement>
   ) => {
@@ -177,7 +169,9 @@ const Login = () => {
     setError("");
 
     const cleanEmail =
-      email.trim().toLowerCase();
+      email
+        .trim()
+        .toLowerCase();
 
     if (!cleanEmail) {
       setError(
@@ -251,10 +245,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
-  /* =======================================================
-     GOOGLE LOGIN
-  ======================================================= */
 
   const handleGoogleSuccess =
     async (
@@ -342,13 +332,9 @@ const Login = () => {
   const handleGoogleError =
     () => {
       setError(
-        "Google sign in was not completed."
+        "Google sign in was not completed. Please try again."
       );
     };
-
-  /* =======================================================
-     ALREADY LOGGED IN
-  ======================================================= */
 
   if (existingToken) {
     return (
@@ -359,16 +345,8 @@ const Login = () => {
     );
   }
 
-  /* =======================================================
-     UI
-  ======================================================= */
-
   return (
     <main className="auth-page">
-      {/* ===============================================
-          BACKGROUND ANIMATION
-      =============================================== */}
-
       <div
         className="auth-background-animation"
         aria-hidden="true"
@@ -382,10 +360,6 @@ const Login = () => {
         <span className="auth-bg-line line-2" />
         <span className="auth-bg-line line-3" />
       </div>
-
-      {/* ===============================================
-          THEME
-      =============================================== */}
 
       <button
         type="button"
@@ -404,19 +378,10 @@ const Login = () => {
           : "☾"}
       </button>
 
-      {/* ===============================================
-          MAIN SHELL
-      =============================================== */}
-
       <section className="auth-shell">
-        {/* =============================================
-            LEFT VISUAL
-        ============================================= */}
-
         <div className="auth-visual">
           <div className="auth-brand">
             <div className="auth-brand-icon">
-              {/* ATS Lens icon */}
               <svg
                 width="24"
                 height="24"
@@ -515,16 +480,8 @@ const Login = () => {
           </div>
         </div>
 
-        {/* =============================================
-            RIGHT PANEL
-        ============================================= */}
-
         <div className="auth-panel">
           <div className="auth-form-wrap">
-            {/* =========================================
-                HEADING
-            ========================================= */}
-
             <div className="auth-form-heading">
               <span>
                 WELCOME BACK
@@ -541,10 +498,6 @@ const Login = () => {
               </p>
             </div>
 
-            {/* =========================================
-                ERROR
-            ========================================= */}
-
             {error && (
               <div
                 className="auth-error"
@@ -554,40 +507,40 @@ const Login = () => {
               </div>
             )}
 
-            {/* =========================================
-                GOOGLE LOGIN
-            ========================================= */}
-
-            <div className="auth-google-wrap">
+            <div
+              className={`auth-google-wrap ${
+                theme === "light"
+                  ? "google-light"
+                  : "google-dark"
+              }`}
+            >
               <GoogleLogin
+                key={theme}
                 onSuccess={
                   handleGoogleSuccess
                 }
                 onError={
                   handleGoogleError
                 }
-                theme="filled_black"
+                theme={
+                  theme === "light"
+                    ? "outline"
+                    : "filled_black"
+                }
                 size="large"
                 shape="rectangular"
                 text="continue_with"
                 width="400"
+                logo_alignment="left"
                 useOneTap={false}
               />
             </div>
-
-            {/* =========================================
-                OR
-            ========================================= */}
 
             <div className="auth-divider">
               <span>
                 OR
               </span>
             </div>
-
-            {/* =========================================
-                FORM
-            ========================================= */}
 
             <form
               className="auth-form"
@@ -596,8 +549,6 @@ const Login = () => {
               }
               noValidate
             >
-              {/* EMAIL */}
-
               <div className="auth-field">
                 <label
                   htmlFor="email"
@@ -657,8 +608,6 @@ const Login = () => {
                   />
                 </div>
               </div>
-
-              {/* PASSWORD */}
 
               <div className="auth-field">
                 <label
@@ -746,8 +695,6 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* OPTIONS */}
-
               <div className="auth-options">
                 <label className="remember-option">
                   <input
@@ -777,8 +724,6 @@ const Login = () => {
                 </label>
               </div>
 
-              {/* SIGN IN */}
-
               <button
                 type="submit"
                 className="auth-submit"
@@ -792,14 +737,10 @@ const Login = () => {
               </button>
             </form>
 
-            {/* =========================================
-                REGISTER
-            ========================================= */}
-
             <div className="auth-switch">
               <span>
-                Don&apos;t have
-                an account?
+                Don&apos;t have an
+                account?
               </span>
 
               <Link to="/register">
