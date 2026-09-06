@@ -461,22 +461,18 @@ const Login = () => {
             </h1>
 
             <p>
-              Analyze ATS
-              compatibility,
-              identify missing
-              skills, understand
-              resume risks, and
-              improve your
-              application with
-              evidence-based
-              insights.
+              Analyze ATS compatibility,
+              identify missing skills,
+              understand resume risks,
+              and improve your application
+              with evidence-based insights.
             </p>
           </div>
 
           <div className="auth-visual-footer">
             AI-powered resume
-            intelligence for
-            better applications.
+            intelligence for better
+            applications.
           </div>
         </div>
 
@@ -492,9 +488,8 @@ const Login = () => {
               </h2>
 
               <p>
-                Continue your
-                resume analysis
-                workspace.
+                Continue your resume
+                analysis workspace.
               </p>
             </div>
 
@@ -507,23 +502,74 @@ const Login = () => {
               </div>
             )}
 
-            <div className="auth-google-wrap">
-              <GoogleLogin
-                key={theme}
-                onSuccess={
-                  handleGoogleSuccess
-                }
-                onError={
-                  handleGoogleError
-                }
-                theme="outline"
-                size="large"
-                shape="rectangular"
-                text="continue_with"
-                width="400"
-                logo_alignment="left"
-                useOneTap={false}
-              />
+            {/* =========================================
+                PREMIUM GOOGLE BUTTON
+            ========================================= */}
+
+            <div className="premium-google-button">
+              <div className="premium-google-content">
+                <div className="premium-google-logo">
+                  <svg
+                    viewBox="0 0 24 24"
+                    width="22"
+                    height="22"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill="#4285F4"
+                      d="M21.6 12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6 4.6 0 0 1-2 3.02v2.53h3.24c1.9-1.75 2.98-4.33 2.98-7.39Z"
+                    />
+
+                    <path
+                      fill="#34A853"
+                      d="M12 22c2.7 0 4.98-.9 6.64-2.38l-3.24-2.53c-.9.6-2.05.96-3.4.96-2.6 0-4.8-1.76-5.59-4.13H3.06v2.61A10 10 0 0 0 12 22Z"
+                    />
+
+                    <path
+                      fill="#FBBC05"
+                      d="M6.41 13.92A6 6 0 0 1 6.1 12c0-.67.11-1.32.31-1.92V7.47H3.06A10 10 0 0 0 2 12c0 1.61.38 3.14 1.06 4.53l3.35-2.61Z"
+                    />
+
+                    <path
+                      fill="#EA4335"
+                      d="M12 5.95c1.47 0 2.79.5 3.83 1.5l2.88-2.88C16.97 2.95 14.7 2 12 2a10 10 0 0 0-8.94 5.47l3.35 2.61C7.2 7.71 9.4 5.95 12 5.95Z"
+                    />
+                  </svg>
+                </div>
+
+                <div className="premium-google-copy">
+                  <strong>
+                    Continue with Google
+                  </strong>
+
+                  <span>
+                    Secure sign in with your
+                    Google account
+                  </span>
+                </div>
+
+                <div className="premium-google-arrow">
+                  →
+                </div>
+              </div>
+
+              {/* Real Google sign-in layer */}
+              <div className="google-native-click-layer">
+                <GoogleLogin
+                  onSuccess={
+                    handleGoogleSuccess
+                  }
+                  onError={
+                    handleGoogleError
+                  }
+                  theme="outline"
+                  size="large"
+                  shape="rectangular"
+                  text="continue_with"
+                  width="400"
+                  useOneTap={false}
+                />
+              </div>
             </div>
 
             <div className="auth-divider">
@@ -547,30 +593,9 @@ const Login = () => {
                 </label>
 
                 <div className="auth-input-wrap">
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <rect
-                      x="3"
-                      y="5"
-                      width="18"
-                      height="14"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                    />
-
-                    <path
-                      d="m4 7 8 6 8-6"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <span>
+                    ✉
+                  </span>
 
                   <input
                     id="email"
@@ -586,9 +611,7 @@ const Login = () => {
                       event
                     ) => {
                       setEmail(
-                        event
-                          .target
-                          .value
+                        event.target.value
                       );
 
                       if (error) {
@@ -607,30 +630,9 @@ const Login = () => {
                 </label>
 
                 <div className="auth-input-wrap">
-                  <svg
-                    width="17"
-                    height="17"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    aria-hidden="true"
-                  >
-                    <rect
-                      x="5"
-                      y="10"
-                      width="14"
-                      height="11"
-                      rx="2"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                    />
-
-                    <path
-                      d="M8 10V7a4 4 0 0 1 8 0v3"
-                      stroke="currentColor"
-                      strokeWidth="1.7"
-                      strokeLinecap="round"
-                    />
-                  </svg>
+                  <span>
+                    ♙
+                  </span>
 
                   <input
                     id="password"
@@ -650,9 +652,7 @@ const Login = () => {
                       event
                     ) => {
                       setPassword(
-                        event
-                          .target
-                          .value
+                        event.target.value
                       );
 
                       if (error) {
@@ -671,9 +671,7 @@ const Login = () => {
                     }
                     onClick={() =>
                       setShowPassword(
-                        (
-                          current
-                        ) =>
+                        (current) =>
                           !current
                       )
                     }
@@ -699,9 +697,7 @@ const Login = () => {
                       event
                     ) =>
                       setRememberMe(
-                        event
-                          .target
-                          .checked
+                        event.target.checked
                       )
                     }
                   />
