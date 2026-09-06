@@ -1,0 +1,1806 @@
+/* =========================================================
+   ATS LENS
+   REPORT PAGE - FINAL TRANSPARENT THEME
+========================================================= */
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.report-page-final {
+  position: relative;
+
+  width: 100%;
+  min-height: 100vh;
+
+  padding:
+    34px 36px 70px;
+
+  overflow: hidden;
+
+  isolation: isolate;
+
+  color:
+    var(--text);
+
+  background:
+    transparent;
+}
+
+/* =========================================================
+   ANIMATED BACKGROUND GRID
+========================================================= */
+
+.report-page-final::before {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: -2;
+
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(51, 205, 140, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(51, 205, 140, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    62px 62px;
+
+  animation:
+    reportGridMove
+    18s linear infinite;
+}
+
+/* =========================================================
+   MOVING GREEN GLOW
+========================================================= */
+
+.report-page-final::after {
+  content: "";
+
+  position: fixed;
+
+  width: 720px;
+  height: 720px;
+
+  top: -250px;
+  right: -220px;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(45, 207, 139, 0.17) 0%,
+      rgba(35, 167, 111, 0.07) 42%,
+      transparent 72%
+    );
+
+  filter:
+    blur(28px);
+
+  animation:
+    reportGlowMove
+    16s ease-in-out
+    infinite alternate;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.report-toolbar-final {
+  position: relative;
+
+  z-index: 5;
+
+  width: 100%;
+
+  margin-bottom: 24px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+}
+
+.report-toolbar-actions {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.report-back-button,
+.report-secondary-button,
+.report-primary-button {
+  min-height: 46px;
+
+  padding:
+    0 17px;
+
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  border-radius: 11px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 850;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.report-back-button,
+.report-secondary-button {
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    var(--surface);
+
+  color:
+    var(--text);
+}
+
+.report-primary-button {
+  border: 0;
+
+  background:
+    #168a5a;
+
+  color:
+    #ffffff;
+
+  box-shadow:
+    0 10px 25px
+    rgba(22, 138, 90, 0.18);
+}
+
+.report-back-button:hover,
+.report-secondary-button:hover {
+  transform:
+    translateY(-1px);
+
+  border-color:
+    var(--primary);
+}
+
+.report-primary-button:hover {
+  transform:
+    translateY(-1px);
+
+  background:
+    #11794d;
+
+  box-shadow:
+    0 14px 30px
+    rgba(22, 138, 90, 0.25);
+}
+
+.report-primary-button:disabled {
+  opacity: 0.65;
+
+  cursor: wait;
+}
+
+/* =========================================================
+   REPORT SHEET
+========================================================= */
+
+.report-sheet-final {
+  position: relative;
+
+  z-index: 3;
+
+  width: 100%;
+  max-width: 1280px;
+
+  margin:
+    0 auto;
+
+  padding:
+    42px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.report-header-final {
+  padding-bottom: 30px;
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 30px;
+}
+
+.report-kicker {
+  display: block;
+
+  color:
+    #45d293;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+}
+
+.report-header-final h1 {
+  max-width: 850px;
+
+  margin:
+    10px 0 10px;
+
+  font-size:
+    clamp(
+      38px,
+      4vw,
+      56px
+    );
+
+  line-height: 1;
+
+  letter-spacing:
+    -2px;
+}
+
+.report-header-final p {
+  max-width: 720px;
+
+  margin: 0;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+/* =========================================================
+   SCORE BOX
+========================================================= */
+
+.report-score-box {
+  width: 145px;
+
+  min-width: 145px;
+
+  min-height: 130px;
+
+  padding:
+    18px 14px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  text-align: center;
+}
+
+.report-score-box span {
+  font-size: 11px;
+}
+
+.report-score-box strong {
+  margin-top: 8px;
+
+  color:
+    #46d594;
+
+  font-size: 38px;
+
+  line-height: 1;
+
+  font-weight: 900;
+}
+
+.report-score-box small {
+  margin-top: 7px;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.report-section-final {
+  margin-top: 34px;
+}
+
+.report-section-heading {
+  margin-bottom: 16px;
+}
+
+.report-section-heading > span {
+  display: block;
+
+  color:
+    #45d293;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+.report-section-heading h2 {
+  margin:
+    6px 0 0;
+
+  font-size: 24px;
+
+  line-height: 1.1;
+
+  letter-spacing:
+    -0.6px;
+}
+
+/* =========================================================
+   PROFILE GRID
+========================================================= */
+
+.report-profile-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      3,
+      minmax(0, 1fr)
+    );
+
+  gap: 13px;
+}
+
+.report-profile-grid > div {
+  position: relative;
+
+  min-width: 0;
+
+  min-height: 82px;
+
+  padding:
+    15px 16px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  overflow: hidden;
+
+  border-radius: 12px;
+
+  isolation: isolate;
+}
+
+.report-profile-grid label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 10px;
+
+  font-weight: 850;
+
+  letter-spacing: 0.5px;
+
+  text-transform: uppercase;
+}
+
+.report-profile-grid strong {
+  display: block;
+
+  overflow-wrap: anywhere;
+
+  font-size: 12px;
+
+  line-height: 1.55;
+
+  font-weight: 800;
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.report-summary-text {
+  margin: 0;
+
+  padding:
+    18px 20px;
+
+  border-radius: 13px;
+
+  font-size: 12px;
+
+  line-height: 1.8;
+}
+
+/* =========================================================
+   SCORE GRID
+========================================================= */
+
+.report-score-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 13px;
+}
+
+.report-score-card {
+  min-width: 0;
+
+  padding:
+    17px;
+
+  overflow: hidden;
+
+  border-radius: 13px;
+
+  isolation: isolate;
+}
+
+.report-score-card-top {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+}
+
+.report-score-card-top h3 {
+  margin: 0;
+
+  font-size: 12px;
+}
+
+.report-score-card-top strong {
+  color:
+    #45d293;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.report-progress {
+  width: 100%;
+
+  height: 6px;
+
+  margin:
+    13px 0 11px;
+
+  overflow: hidden;
+
+  border-radius:
+    999px;
+}
+
+.report-progress span {
+  display: block;
+
+  height: 100%;
+
+  border-radius: inherit;
+
+  background:
+    #45d293;
+}
+
+.report-score-card p {
+  margin: 0;
+
+  font-size: 10px;
+
+  line-height: 1.65;
+}
+
+/* =========================================================
+   SKILLS / INSIGHTS
+========================================================= */
+
+.report-skill-grid,
+.report-insight-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0, 1fr)
+    );
+
+  gap: 13px;
+}
+
+/* =========================================================
+   LIST CARDS
+========================================================= */
+
+.report-list-card {
+  min-width: 0;
+
+  min-height: 150px;
+
+  padding:
+    18px;
+
+  overflow: hidden;
+
+  border-radius: 13px;
+
+  isolation: isolate;
+}
+
+.report-list-card h3 {
+  margin:
+    0 0 13px;
+
+  font-size: 13px;
+}
+
+.report-list-card ul {
+  margin: 0;
+
+  padding-left: 18px;
+
+  display: grid;
+
+  gap: 7px;
+}
+
+.report-list-card li,
+.report-list-card p {
+  font-size: 10px;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   FINAL VERDICT
+========================================================= */
+
+.report-verdict-final {
+  margin-top: 36px;
+
+  padding:
+    22px;
+
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  isolation: isolate;
+}
+
+.report-verdict-final h2 {
+  margin:
+    7px 0 10px;
+
+  font-size: 23px;
+}
+
+.report-verdict-final p {
+  margin: 0;
+
+  font-size: 11px;
+
+  line-height: 1.75;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.report-footer-final {
+  margin-top: 36px;
+
+  padding-top: 20px;
+}
+
+.report-footer-final strong {
+  display: block;
+
+  color:
+    #45d293;
+
+  font-size: 12px;
+}
+
+.report-footer-final p {
+  max-width: 850px;
+
+  margin:
+    7px 0 0;
+
+  font-size: 9px;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+[data-theme="light"]
+.report-page-final {
+  background:
+    transparent;
+}
+
+[data-theme="light"]
+.report-sheet-final {
+  background:
+    rgba(255, 255, 255, 0.90);
+
+  border:
+    1px solid
+    rgba(22, 138, 90, 0.10);
+
+  color:
+    #10291f;
+
+  box-shadow:
+    0 24px 60px
+    rgba(14, 62, 43, 0.08);
+}
+
+[data-theme="light"]
+.report-header-final {
+  border-bottom:
+    1px solid
+    #d8e2dc;
+}
+
+[data-theme="light"]
+.report-header-final h1,
+[data-theme="light"]
+.report-section-heading h2,
+[data-theme="light"]
+.report-profile-grid strong,
+[data-theme="light"]
+.report-score-card h3,
+[data-theme="light"]
+.report-list-card h3,
+[data-theme="light"]
+.report-verdict-final h2 {
+  color:
+    #10291f;
+}
+
+[data-theme="light"]
+.report-header-final p,
+[data-theme="light"]
+.report-profile-grid label,
+[data-theme="light"]
+.report-summary-text,
+[data-theme="light"]
+.report-score-card p,
+[data-theme="light"]
+.report-list-card li,
+[data-theme="light"]
+.report-list-card p,
+[data-theme="light"]
+.report-verdict-final p,
+[data-theme="light"]
+.report-footer-final p {
+  color:
+    #66776e;
+}
+
+[data-theme="light"]
+.report-profile-grid > div,
+[data-theme="light"]
+.report-summary-text,
+[data-theme="light"]
+.report-score-card,
+[data-theme="light"]
+.report-list-card,
+[data-theme="light"]
+.report-verdict-final {
+  border:
+    1px solid
+    rgba(22, 138, 90, 0.14);
+
+  background:
+    rgba(255, 255, 255, 0.42);
+
+  box-shadow:
+    none;
+}
+
+[data-theme="light"]
+.report-score-box {
+  background:
+    rgba(224, 244, 234, 0.70);
+
+  border:
+    1px solid
+    rgba(22, 138, 90, 0.12);
+}
+
+[data-theme="light"]
+.report-score-box span,
+[data-theme="light"]
+.report-score-box small {
+  color:
+    #74857c;
+}
+
+[data-theme="light"]
+.report-progress {
+  background:
+    rgba(22, 138, 90, 0.10);
+}
+
+[data-theme="light"]
+.report-footer-final {
+  border-top:
+    1px solid
+    #d8e2dc;
+}
+
+/* =========================================================
+   DARK MODE
+   RESULTS PAGE STYLE
+========================================================= */
+
+[data-theme="dark"]
+.report-page-final {
+  background:
+    transparent;
+}
+
+/* Main transparent report */
+[data-theme="dark"]
+.report-sheet-final {
+  background:
+    rgba(8, 26, 18, 0.62) !important;
+
+  border:
+    1px solid
+    rgba(72, 214, 150, 0.14) !important;
+
+  color:
+    #eef9f3 !important;
+
+  box-shadow:
+    0 28px 70px
+    rgba(0, 0, 0, 0.18);
+
+  backdrop-filter:
+    none;
+
+  -webkit-backdrop-filter:
+    none;
+}
+
+/* Header */
+[data-theme="dark"]
+.report-header-final {
+  border-bottom:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"]
+.report-header-final h1,
+[data-theme="dark"]
+.report-section-heading h2,
+[data-theme="dark"]
+.report-profile-grid strong,
+[data-theme="dark"]
+.report-score-card h3,
+[data-theme="dark"]
+.report-list-card h3,
+[data-theme="dark"]
+.report-verdict-final h2 {
+  color:
+    #f1fbf6 !important;
+}
+
+[data-theme="dark"]
+.report-header-final p,
+[data-theme="dark"]
+.report-profile-grid label,
+[data-theme="dark"]
+.report-summary-text,
+[data-theme="dark"]
+.report-score-card p,
+[data-theme="dark"]
+.report-list-card li,
+[data-theme="dark"]
+.report-list-card p,
+[data-theme="dark"]
+.report-verdict-final p,
+[data-theme="dark"]
+.report-footer-final p {
+  color:
+    #9dafaa !important;
+}
+
+/* =========================================================
+   DARK INNER TRANSPARENT CARDS
+========================================================= */
+
+[data-theme="dark"]
+.report-profile-grid > div,
+
+[data-theme="dark"]
+.report-summary-text,
+
+[data-theme="dark"]
+.report-score-card,
+
+[data-theme="dark"]
+.report-list-card,
+
+[data-theme="dark"]
+.report-verdict-final {
+  background:
+    rgba(15, 39, 28, 0.48) !important;
+
+  border:
+    1px solid
+    rgba(73, 215, 151, 0.12) !important;
+
+  box-shadow:
+    none !important;
+}
+
+/* =========================================================
+   SCORE BOX DARK
+========================================================= */
+
+[data-theme="dark"]
+.report-score-box {
+  background:
+    rgba(38, 132, 88, 0.13) !important;
+
+  border:
+    1px solid
+    rgba(73, 215, 151, 0.15) !important;
+}
+
+[data-theme="dark"]
+.report-score-box span,
+[data-theme="dark"]
+.report-score-box small {
+  color:
+    #9dafaa !important;
+}
+
+[data-theme="dark"]
+.report-score-box strong {
+  color:
+    #4cda99 !important;
+}
+
+/* =========================================================
+   GREEN DARK LABELS
+========================================================= */
+
+[data-theme="dark"]
+.report-kicker,
+
+[data-theme="dark"]
+.report-section-heading > span,
+
+[data-theme="dark"]
+.report-footer-final strong,
+
+[data-theme="dark"]
+.report-score-card-top strong {
+  color:
+    #4cda99 !important;
+}
+
+/* =========================================================
+   DARK PROGRESS
+========================================================= */
+
+[data-theme="dark"]
+.report-progress {
+  background:
+    rgba(255, 255, 255, 0.07);
+}
+
+[data-theme="dark"]
+.report-progress span {
+  background:
+    #4cda99;
+}
+
+/* =========================================================
+   DARK FOOTER
+========================================================= */
+
+[data-theme="dark"]
+.report-footer-final {
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+}
+
+/* =========================================================
+   SOFT MOVING LIGHT INSIDE DARK CARDS
+========================================================= */
+
+[data-theme="dark"]
+.report-profile-grid > div::before,
+
+[data-theme="dark"]
+.report-score-card::before,
+
+[data-theme="dark"]
+.report-list-card::before,
+
+[data-theme="dark"]
+.report-verdict-final::before {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  top: -45px;
+  left: -150px;
+
+  z-index: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(55, 214, 145, 0.08);
+
+  filter:
+    blur(24px);
+
+  pointer-events: none;
+
+  animation:
+    reportCardGlow
+    7s ease-in-out
+    infinite;
+}
+
+/* keep content above glow */
+
+[data-theme="dark"]
+.report-profile-grid > div > *,
+
+[data-theme="dark"]
+.report-score-card > *,
+
+[data-theme="dark"]
+.report-list-card > *,
+
+[data-theme="dark"]
+.report-verdict-final > * {
+  position: relative;
+
+  z-index: 2;
+}
+
+/* =========================================================
+   STATE PAGE
+========================================================= */
+
+.report-state-page {
+  min-height: 100vh;
+
+  display: grid;
+
+  place-items: center;
+
+  padding: 24px;
+
+  background:
+    var(--bg);
+
+  color:
+    var(--text);
+}
+
+.report-state-card {
+  width:
+    min(
+      420px,
+      100%
+    );
+
+  padding:
+    34px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius: 17px;
+
+  background:
+    var(--surface);
+
+  text-align: center;
+}
+
+.report-state-card h2 {
+  margin:
+    14px 0 8px;
+
+  color:
+    var(--text);
+}
+
+.report-state-card p {
+  margin:
+    0 0 18px;
+
+  color:
+    var(--text-muted);
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.report-state-card button {
+  min-height: 42px;
+
+  padding:
+    0 15px;
+
+  border: 0;
+
+  border-radius: 10px;
+
+  background:
+    var(--primary);
+
+  color:
+    #ffffff;
+
+  font-family: inherit;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.report-loader {
+  width: 36px;
+  height: 36px;
+
+  margin: auto;
+
+  border:
+    3px solid
+    var(--primary-soft);
+
+  border-top-color:
+    var(--primary);
+
+  border-radius: 50%;
+
+  animation:
+    reportSpin
+    0.8s linear infinite;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes reportGridMove {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      62px 62px,
+      62px 62px;
+  }
+}
+
+@keyframes reportGlowMove {
+  0% {
+    transform:
+      translate(
+        0,
+        0
+      )
+      scale(1);
+  }
+
+  50% {
+    transform:
+      translate(
+        -45vw,
+        45vh
+      )
+      scale(1.10);
+  }
+
+  100% {
+    transform:
+      translate(
+        -15vw,
+        75vh
+      )
+      scale(0.96);
+  }
+}
+
+@keyframes reportCardGlow {
+  0% {
+    transform:
+      translateX(0);
+
+    opacity: 0.25;
+  }
+
+  50% {
+    transform:
+      translateX(700px);
+
+    opacity: 0.9;
+  }
+
+  100% {
+    transform:
+      translateX(0);
+
+    opacity: 0.25;
+  }
+}
+
+@keyframes reportSpin {
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .report-page-final {
+    padding:
+      24px 20px 55px;
+  }
+
+  .report-sheet-final {
+    padding:
+      30px;
+  }
+
+  .report-profile-grid {
+    grid-template-columns:
+      repeat(
+        2,
+        minmax(0, 1fr)
+      );
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .report-page-final {
+    width: 100%;
+
+    padding:
+      18px 12px 45px;
+  }
+
+  .report-toolbar-final {
+    display: grid;
+
+    grid-template-columns:
+      1fr;
+
+    gap: 9px;
+
+    margin-bottom: 18px;
+  }
+
+  .report-toolbar-actions {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      1fr;
+
+    gap: 9px;
+  }
+
+  .report-back-button,
+  .report-secondary-button,
+  .report-primary-button {
+    width: 100%;
+
+    min-height: 44px;
+  }
+
+  .report-sheet-final {
+    width: 100%;
+
+    padding:
+      22px 18px;
+
+    border-radius: 16px;
+  }
+
+  .report-header-final {
+    flex-direction: column;
+
+    gap: 20px;
+
+    padding-bottom: 24px;
+  }
+
+  .report-header-final h1 {
+    font-size: 34px;
+
+    line-height: 1.02;
+
+    letter-spacing:
+      -1.4px;
+  }
+
+  .report-header-final p {
+    font-size: 11px;
+
+    line-height: 1.65;
+  }
+
+  .report-score-box {
+    width: 115px;
+
+    min-width: 115px;
+
+    min-height: 105px;
+
+    padding: 14px;
+  }
+
+  .report-score-box strong {
+    font-size: 32px;
+  }
+
+  .report-profile-grid,
+  .report-score-grid,
+  .report-skill-grid,
+  .report-insight-grid {
+    grid-template-columns:
+      1fr;
+
+    gap: 10px;
+  }
+
+  .report-profile-grid > div {
+    min-height: 70px;
+
+    padding:
+      13px 14px;
+  }
+
+  .report-score-card,
+  .report-list-card {
+    min-height: 0;
+
+    padding: 15px;
+  }
+
+  .report-section-final {
+    margin-top: 27px;
+  }
+
+  .report-section-heading h2 {
+    font-size: 21px;
+  }
+
+  .report-summary-text {
+    padding: 15px;
+
+    font-size: 10px;
+  }
+
+  .report-verdict-final {
+    padding: 17px;
+  }
+
+  .report-verdict-final h2 {
+    font-size: 20px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .report-page-final {
+    padding:
+      14px 10px 40px;
+  }
+
+  .report-sheet-final {
+    padding:
+      20px 15px;
+  }
+
+  .report-header-final h1 {
+    font-size: 30px;
+  }
+
+  .report-section-heading h2 {
+    font-size: 19px;
+  }
+}
+
+/* =========================================================
+   PRINT / PDF
+========================================================= */
+
+@media print {
+
+  body {
+    background:
+      #ffffff !important;
+  }
+
+  .dash-sidebar,
+  .report-toolbar-final {
+    display:
+      none !important;
+  }
+
+  .dash-shell {
+    display:
+      block !important;
+
+    background:
+      #ffffff !important;
+  }
+
+  .dash-main {
+    padding:
+      0 !important;
+
+    background:
+      #ffffff !important;
+  }
+
+  .dash-main::before,
+  .dash-main::after,
+  .report-page-final::before,
+  .report-page-final::after {
+    display:
+      none !important;
+  }
+
+  .report-page-final {
+    padding:
+      0 !important;
+
+    background:
+      #ffffff !important;
+  }
+
+  .report-sheet-final {
+    width:
+      100% !important;
+
+    max-width:
+      none !important;
+
+    margin:
+      0 !important;
+
+    padding:
+      20px !important;
+
+    border:
+      0 !important;
+
+    border-radius:
+      0 !important;
+
+    background:
+      #ffffff !important;
+
+    color:
+      #10291f !important;
+
+    box-shadow:
+      none !important;
+  }
+
+  .report-profile-grid > div,
+  .report-summary-text,
+  .report-score-card,
+  .report-list-card,
+  .report-verdict-final {
+    background:
+      transparent !important;
+
+    border-color:
+      #d8e2dc !important;
+  }
+
+  .report-profile-grid > div::before,
+  .report-score-card::before,
+  .report-list-card::before,
+  .report-verdict-final::before {
+    display:
+      none !important;
+  }
+
+  .report-sheet-final h1,
+  .report-sheet-final h2,
+  .report-sheet-final h3,
+  .report-sheet-final strong {
+    color:
+      #10291f !important;
+  }
+
+  .report-sheet-final p,
+  .report-sheet-final li,
+  .report-profile-grid label {
+    color:
+      #66776e !important;
+  }
+
+  .report-kicker,
+  .report-section-heading > span {
+    color:
+      #168a5a !important;
+  }
+
+  .report-section-final,
+  .report-score-card,
+  .report-list-card,
+  .report-verdict-final {
+    break-inside:
+      avoid;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+
+  .report-page-final::before,
+  .report-page-final::after,
+  .report-profile-grid > div::before,
+  .report-score-card::before,
+  .report-list-card::before,
+  .report-verdict-final::before,
+  .report-loader {
+    animation:
+      none !important;
+  }
+}/* =========================================================
+   REPORT - SOFT "1 ANALYSIS" STYLE ANIMATION
+========================================================= */
+
+/* Remove old large glow */
+.report-page-final::after {
+  display: none !important;
+}
+
+/* =========================================================
+   MAIN REPORT SOFT MOVING LIGHT
+========================================================= */
+
+[data-theme="dark"] .report-sheet-final {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    rgba(8, 26, 18, 0.62) !important;
+
+  border:
+    1px solid
+    rgba(74, 211, 149, 0.14) !important;
+}
+
+[data-theme="dark"] .report-sheet-final::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  left: -35%;
+
+  width: 28%;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(67, 220, 150, 0.015) 20%,
+      rgba(67, 220, 150, 0.07) 50%,
+      rgba(67, 220, 150, 0.015) 80%,
+      transparent 100%
+    );
+
+  filter:
+    blur(18px);
+
+  opacity: 0.7;
+
+  animation:
+    reportSoftSweep
+    7s
+    ease-in-out
+    infinite;
+}
+
+/* Keep report content above animation */
+
+[data-theme="dark"] .report-sheet-final > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   PROFILE BOXES - SOFT LIGHT SWEEP
+========================================================= */
+
+[data-theme="dark"] .report-profile-grid > div,
+[data-theme="dark"] .report-score-card,
+[data-theme="dark"] .report-list-card,
+[data-theme="dark"] .report-verdict-final {
+  position: relative;
+
+  overflow: hidden;
+
+  background:
+    rgba(15, 39, 28, 0.48) !important;
+
+  border:
+    1px solid
+    rgba(73, 215, 151, 0.12) !important;
+}
+
+/* Remove previous glow */
+[data-theme="dark"] .report-profile-grid > div::before,
+[data-theme="dark"] .report-score-card::before,
+[data-theme="dark"] .report-list-card::before,
+[data-theme="dark"] .report-verdict-final::before {
+  display: none !important;
+}
+
+/* New subtle bottom light */
+
+[data-theme="dark"] .report-profile-grid > div::after,
+[data-theme="dark"] .report-score-card::after,
+[data-theme="dark"] .report-list-card::after,
+[data-theme="dark"] .report-verdict-final::after {
+  content: "";
+
+  position: absolute;
+
+  left: -45%;
+
+  bottom: 0;
+
+  width: 38%;
+  height: 1px;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(75, 222, 155, 0.85),
+      transparent
+    );
+
+  box-shadow:
+    0 0 14px
+    rgba(75, 222, 155, 0.28);
+
+  animation:
+    reportCardLine
+    5.5s
+    ease-in-out
+    infinite;
+}
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes reportSoftSweep {
+
+  0% {
+    left: -35%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  85% {
+    opacity: 0.45;
+  }
+
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+
+@keyframes reportCardLine {
+
+  0% {
+    left: -45%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 0.45;
+  }
+
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+
+/* =========================================================
+   KEEP GRID ANIMATION VERY SOFT
+========================================================= */
+
+.report-page-final::before {
+  opacity: 0.65;
+
+  animation:
+    reportGridMove
+    24s
+    linear
+    infinite;
+}
+
+/* =========================================================
+   MOBILE - EVEN SOFTER
+========================================================= */
+
+@media (max-width: 768px) {
+
+  [data-theme="dark"]
+  .report-sheet-final::before {
+    opacity: 0.45;
+
+    animation-duration:
+      8s;
+  }
+
+  [data-theme="dark"]
+  .report-profile-grid > div::after,
+  [data-theme="dark"]
+  .report-score-card::after,
+  [data-theme="dark"]
+  .report-list-card::after,
+  [data-theme="dark"]
+  .report-verdict-final::after {
+    opacity: 0.65;
+  }
+}
+
+/* =========================================================
+   PRINT / PDF - NO ANIMATION
+========================================================= */
+
+@media print {
+
+  .report-sheet-final::before,
+  .report-profile-grid > div::after,
+  .report-score-card::after,
+  .report-list-card::after,
+  .report-verdict-final::after {
+    display: none !important;
+  }
+}

@@ -1,0 +1,1593 @@
+/* =========================================================
+   ATS LENS — HISTORY PAGE
+========================================================= */
+
+.history-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.history-main {
+  width: min(1180px, calc(100% - 48px));
+  margin: 0 auto;
+
+  padding: 42px 0 80px;
+}
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.history-back-button {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 30px;
+
+  padding: 10px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-size: 13px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.history-back-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+
+  background: var(--primary-soft);
+
+  transform: translateX(-2px);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.history-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 24px;
+
+  margin-bottom: 30px;
+}
+
+.history-kicker {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: var(--primary);
+
+  font-size: 12px;
+  font-weight: 900;
+
+  letter-spacing: 1.1px;
+
+  text-transform: uppercase;
+}
+
+.history-header h1 {
+  margin: 0;
+
+  font-size: clamp(42px, 5vw, 62px);
+  line-height: 1;
+
+  letter-spacing: -2.5px;
+}
+
+.history-header p {
+  margin: 16px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   REFRESH BUTTON
+========================================================= */
+
+.history-refresh-button {
+  min-height: 44px;
+
+  padding: 0 15px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  background: var(--surface);
+  color: var(--text);
+
+  font-size: 12px;
+  font-weight: 850;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.history-refresh-button:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--primary);
+
+  background: var(--primary-soft);
+
+  transform: translateY(-1px);
+}
+
+.history-refresh-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.history-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+
+  margin-bottom: 22px;
+}
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.history-search {
+  width: min(430px, 100%);
+
+  min-height: 50px;
+
+  padding: 0 15px;
+
+  border: 1px solid var(--border);
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  background: var(--surface);
+  color: var(--text-muted);
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.history-search:focus-within {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px
+    var(--primary-soft);
+}
+
+.history-search input {
+  width: 100%;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+  color: var(--text);
+
+  font: inherit;
+  font-size: 13px;
+}
+
+.history-search input::placeholder {
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.history-count {
+  padding: 8px 11px;
+
+  border-radius: 999px;
+
+  background: var(--primary-soft);
+  color: var(--primary);
+
+  font-size: 11px;
+  font-weight: 850;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.history-error {
+  margin-bottom: 20px;
+
+  padding: 13px 15px;
+
+  border: 1px solid
+    rgba(239, 95, 95, 0.28);
+
+  border-radius: 11px;
+
+  background:
+    rgba(239, 95, 95, 0.08);
+
+  color: #ff7272;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   EMPTY / LOADING STATE
+========================================================= */
+
+.history-state-card {
+  min-height: 300px;
+
+  padding: 42px 24px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: var(--surface);
+
+  box-shadow:
+    0 18px 50px
+    rgba(0, 0, 0, 0.06);
+}
+
+.history-state-card svg {
+  margin-bottom: 14px;
+
+  color: var(--primary);
+}
+
+.history-state-card h3 {
+  margin: 0;
+
+  color: var(--text);
+
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.history-state-card p {
+  max-width: 430px;
+
+  margin: 10px 0 22px;
+
+  color: var(--text-muted);
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.history-state-card button {
+  min-height: 46px;
+
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 11px;
+
+  background: var(--primary);
+  color: #07150e;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
+}
+
+.history-state-card button:hover {
+  transform: translateY(-1px);
+
+  background: var(--primary-hover);
+}
+
+/* =========================================================
+   LIST
+========================================================= */
+
+.history-list {
+  display: grid;
+
+  gap: 14px;
+}
+
+/* =========================================================
+   HISTORY ITEM
+========================================================= */
+
+.history-item {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+
+  background: var(--surface);
+
+  overflow: hidden;
+
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.history-item:hover {
+  border-color: rgba(73, 201, 141, 0.38);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 12px 35px
+    rgba(0, 0, 0, 0.06);
+}
+
+.history-item-main {
+  min-height: 100px;
+
+  padding: 20px 22px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto
+    auto
+    auto;
+
+  align-items: center;
+
+  gap: 22px;
+}
+
+/* =========================================================
+   ITEM INFO
+========================================================= */
+
+.history-item-info {
+  min-width: 0;
+}
+
+.history-item-info h3 {
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--text);
+
+  font-size: 16px;
+  font-weight: 900;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-item-info p {
+  margin: 6px 0 0;
+
+  overflow: hidden;
+
+  color: var(--text-muted);
+
+  font-size: 12px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   SCORE
+========================================================= */
+
+.history-item-score {
+  display: flex;
+  align-items: baseline;
+
+  gap: 8px;
+
+  white-space: nowrap;
+}
+
+.history-item-score strong {
+  color: var(--primary);
+
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.history-item-score span {
+  color: var(--text-muted);
+
+  font-size: 12px;
+}
+
+/* =========================================================
+   DATE
+========================================================= */
+
+.history-item-date {
+  color: var(--text-muted);
+
+  font-size: 11px;
+
+  white-space: nowrap;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.history-item-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.history-item-actions button {
+  width: 40px;
+  height: 40px;
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  display: grid;
+  place-items: center;
+
+  background: transparent;
+  color: var(--text-muted);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease;
+}
+
+.history-view-button:hover {
+  border-color: var(--primary);
+
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+.history-delete-button:hover {
+  border-color: #e25d5d;
+
+  background: rgba(226, 93, 93, 0.08);
+  color: #e25d5d;
+}
+
+/* =========================================================
+   SPINNER
+========================================================= */
+
+.history-spin {
+  animation:
+    historySpin
+    0.8s linear infinite;
+}
+
+@keyframes historySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+[data-theme="light"] .history-page {
+  background: #f5f7f5;
+}
+
+[data-theme="light"] .history-back-button,
+[data-theme="light"] .history-refresh-button,
+[data-theme="light"] .history-search,
+[data-theme="light"] .history-state-card,
+[data-theme="light"] .history-item {
+  background: #ffffff;
+
+  border-color: #dbe2dd;
+}
+
+[data-theme="light"] .history-header h1,
+[data-theme="light"] .history-state-card h3,
+[data-theme="light"] .history-item-info h3 {
+  color: #10251c;
+}
+
+[data-theme="light"] .history-header p,
+[data-theme="light"] .history-state-card p,
+[data-theme="light"] .history-item-info p,
+[data-theme="light"] .history-item-date,
+[data-theme="light"] .history-item-score span {
+  color: #63756a;
+}
+
+[data-theme="light"] .history-search input {
+  color: #10251c;
+}
+
+[data-theme="light"] .history-search input::placeholder {
+  color: #738279;
+}
+
+[data-theme="light"] .history-state-card button {
+  background: #173f32;
+
+  color: #ffffff;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+  .history-item-main {
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto
+      auto;
+  }
+
+  .history-item-date {
+    display: none;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+  .history-main {
+    width: min(
+      100% - 28px,
+      1180px
+    );
+
+    padding: 28px 0 54px;
+  }
+
+  .history-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .history-header h1 {
+    font-size: 42px;
+
+    letter-spacing: -1.8px;
+  }
+
+  .history-toolbar {
+    align-items: stretch;
+
+    flex-direction: column;
+  }
+
+  .history-search {
+    width: 100%;
+  }
+
+  .history-count {
+    align-self: flex-start;
+  }
+
+  .history-item-main {
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+
+    gap: 14px;
+
+    padding: 18px;
+  }
+
+  .history-item-score {
+    justify-self: end;
+  }
+
+  .history-item-actions {
+    grid-column: 1 / -1;
+
+    justify-content: flex-end;
+  }
+
+  .history-state-card {
+    min-height: 260px;
+
+    padding: 34px 20px;
+  }
+}/* =========================================================
+   HISTORY TOP ACTIONS
+========================================================= */
+
+.history-top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 30px;
+}
+
+/* =========================================================
+   HISTORY THEME BUTTON
+========================================================= */
+
+.history-theme-button {
+  width: 46px;
+  height: 46px;
+
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--surface);
+  color: var(--text);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease,
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.history-theme-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+
+  background: var(--primary-soft);
+
+  transform: translateY(-1px);
+}
+
+.history-top-actions .history-back-button {
+  margin-bottom: 0;
+}
+
+[data-theme="light"] .history-theme-button {
+  background: #ffffff;
+
+  border-color: #dbe2dd;
+}
+
+@media (max-width: 650px) {
+  .history-top-actions {
+    margin-bottom: 24px;
+  }
+}/* =========================================================
+   HISTORY PAGE BACKGROUND ANIMATION
+========================================================= */
+
+.history-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.history-page::before {
+  content: "";
+  position: fixed;
+
+  top: 0;
+  left: 245px;
+  right: 0;
+  bottom: 0;
+
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(26, 145, 95, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(26, 145, 95, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size: 62px 62px;
+
+  animation:
+    historyGridMove
+    18s
+    linear
+    infinite;
+}
+
+.history-page::after {
+  content: "";
+  position: fixed;
+
+  width: 620px;
+  height: 620px;
+
+  top: 20%;
+  right: -170px;
+
+  z-index: 0;
+  pointer-events: none;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(22, 160, 99, 0.13),
+      transparent 70%
+    );
+
+  filter: blur(18px);
+
+  animation:
+    historyGlowMove
+    17s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+.history-page > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes historyGridMove {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      62px 62px,
+      62px 62px;
+  }
+}
+
+@keyframes historyGlowMove {
+  from {
+    transform:
+      translate(
+        0,
+        0
+      );
+  }
+
+  to {
+    transform:
+      translate(
+        -190px,
+        140px
+      );
+  }
+}
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .history-page::before,
+  .history-page::after {
+    animation:
+      none !important;
+  }
+}/* =========================================================
+   HISTORY PAGE BACKGROUND FIX
+========================================================= */
+
+.history-page {
+  width: 100%;
+  min-height: 100vh;
+
+  background: transparent !important;
+
+  position: relative;
+  isolation: isolate;
+
+  overflow: visible;
+}
+
+.history-main {
+  width: 100%;
+
+  background: transparent !important;
+
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep actual content cards above background */
+.history-toolbar,
+.history-state-card,
+.history-item {
+  position: relative;
+  z-index: 3;
+}
+
+/* =========================================================
+   HISTORY BACKGROUND GRID
+========================================================= */
+
+.history-page::before {
+  content: "";
+
+  position: fixed;
+
+  top: 0;
+  left: 245px;
+  right: 0;
+  bottom: 0;
+
+  z-index: -2;
+
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(22, 138, 90, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(22, 138, 90, 0.055) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    62px 62px;
+
+  animation:
+    historyGridMove
+    18s
+    linear
+    infinite;
+}
+
+/* =========================================================
+   HISTORY MOVING GREEN GLOW
+========================================================= */
+
+.history-page::after {
+  content: "";
+
+  position: fixed;
+
+  width: 700px;
+  height: 700px;
+
+  top: 12%;
+  right: -180px;
+
+  z-index: -1;
+
+  pointer-events: none;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(22, 160, 99, 0.13),
+      rgba(22, 160, 99, 0.05) 35%,
+      transparent 70%
+    );
+
+  filter: blur(25px);
+
+  animation:
+    historyGlowMove
+    17s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+@keyframes historyGridMove {
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      62px 62px,
+      62px 62px;
+  }
+}
+
+@keyframes historyGlowMove {
+  from {
+    transform:
+      translate(
+        0,
+        0
+      );
+  }
+
+  to {
+    transform:
+      translate(
+        -220px,
+        160px
+      );
+  }
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-theme="dark"]
+.history-page,
+[data-theme="dark"]
+.history-main {
+  background:
+    transparent !important;
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .history-page::before,
+  .history-page::after {
+    animation:
+      none !important;
+  }
+}/* =========================================================
+   HISTORY CARD INNER ANIMATION
+========================================================= */
+
+.history-item,
+.history-toolbar,
+.history-state-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.history-item::before,
+.history-toolbar::before,
+.history-state-card::before {
+  content: "";
+
+  position: absolute;
+  inset: -45%;
+
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 35%,
+      rgba(22, 138, 90, 0.06) 48%,
+      rgba(22, 138, 90, 0.11) 52%,
+      transparent 65%
+    );
+
+  transform:
+    translateX(-70%);
+
+  animation:
+    historyCardShimmer
+    8s
+    ease-in-out
+    infinite;
+}
+
+.history-item::after,
+.history-toolbar::after,
+.history-state-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  right: -110px;
+  bottom: -120px;
+
+  z-index: 0;
+  pointer-events: none;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(22, 156, 97, 0.07),
+      transparent 70%
+    );
+
+  animation:
+    historyCardGlow
+    7s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+.history-item > *,
+.history-toolbar > *,
+.history-state-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes historyCardShimmer {
+  0% {
+    transform:
+      translateX(-70%);
+  }
+
+  50% {
+    transform:
+      translateX(-70%);
+  }
+
+  75% {
+    transform:
+      translateX(70%);
+  }
+
+  100% {
+    transform:
+      translateX(70%);
+  }
+}
+
+@keyframes historyCardGlow {
+  from {
+    transform:
+      translate(
+        0,
+        0
+      )
+      scale(1);
+  }
+
+  to {
+    transform:
+      translate(
+        -45px,
+        -35px
+      )
+      scale(1.15);
+  }
+}
+
+/* Dark mode */
+[data-theme="dark"]
+.history-item::before,
+[data-theme="dark"]
+.history-toolbar::before,
+[data-theme="dark"]
+.history-state-card::before {
+  background:
+    linear-gradient(
+      115deg,
+      transparent 35%,
+      rgba(72, 215, 151, 0.04) 48%,
+      rgba(72, 215, 151, 0.08) 52%,
+      transparent 65%
+    );
+}
+
+[data-theme="dark"]
+.history-item::after,
+[data-theme="dark"]
+.history-toolbar::after,
+[data-theme="dark"]
+.history-state-card::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(49, 201, 133, 0.09),
+      transparent 70%
+    );
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .analyze-card::before,
+  .analyze-card::after,
+  .history-item::before,
+  .history-item::after,
+  .history-toolbar::before,
+  .history-toolbar::after,
+  .history-state-card::before,
+  .history-state-card::after {
+    animation:
+      none !important;
+  }
+}/* =========================================================
+   FIX HISTORY COUNT / TOOLBAR VISUAL BOX
+========================================================= */
+
+/* Toolbar-க்கு shimmer வேண்டாம் */
+.history-toolbar {
+  overflow: visible !important;
+  isolation: auto !important;
+  background: transparent !important;
+}
+
+/* பெரிய animated rectangle remove */
+.history-toolbar::before,
+.history-toolbar::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* 1 analysis small clean pill */
+.history-count {
+  position: relative;
+  z-index: 5;
+
+  width: fit-content;
+
+  padding: 8px 13px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(22, 138, 90, 0.09);
+
+  border:
+    1px solid
+    rgba(22, 138, 90, 0.08);
+
+  color:
+    #168a5a;
+
+  font-weight: 850;
+
+  box-shadow: none !important;
+
+  overflow: hidden;
+}
+
+/* Small glow only inside pill */
+.history-count::before {
+  content: "";
+
+  position: absolute;
+
+  width: 45px;
+  height: 45px;
+
+  top: -15px;
+  left: -50px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(44, 196, 128, 0.18);
+
+  filter: blur(10px);
+
+  pointer-events: none;
+
+  animation:
+    historyCountGlow
+    3.5s
+    ease-in-out
+    infinite;
+}
+
+.history-count {
+  isolation: isolate;
+}
+
+.history-count > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes historyCountGlow {
+  0% {
+    transform:
+      translateX(0);
+  }
+
+  50% {
+    transform:
+      translateX(90px);
+  }
+
+  100% {
+    transform:
+      translateX(0);
+  }
+}
+
+/* DARK MODE */
+
+[data-theme="dark"]
+.history-count {
+  background:
+    rgba(43, 193, 126, 0.12);
+
+  border-color:
+    rgba(67, 216, 151, 0.16);
+
+  color:
+    #56d99c;
+}
+
+/* REDUCED MOTION */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .history-count::before {
+    animation: none !important;
+  }
+}/* =========================================================
+   HISTORY WHITE CARD - SAME GLOW FEEL AS "1 ANALYSIS"
+========================================================= */
+
+.history-item {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Remove older full-card shimmer if present */
+.history-item::before {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  top: -55px;
+  left: -190px;
+
+  z-index: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(34, 190, 124, 0.14);
+
+  filter: blur(28px);
+
+  pointer-events: none;
+
+  animation:
+    historyWhiteCardGlow
+    5.5s
+    ease-in-out
+    infinite;
+}
+
+/* Optional second soft glow */
+.history-item::after {
+  content: "";
+
+  position: absolute;
+
+  width: 120px;
+  height: 120px;
+
+  right: -130px;
+  bottom: -45px;
+
+  z-index: 0;
+
+  border-radius: 50%;
+
+  background:
+    rgba(22, 138, 90, 0.08);
+
+  filter: blur(24px);
+
+  pointer-events: none;
+
+  animation:
+    historyWhiteCardGlowSecond
+    7s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+.history-item > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   MAIN GLOW ANIMATION
+========================================================= */
+
+@keyframes historyWhiteCardGlow {
+  0% {
+    transform:
+      translateX(0);
+    opacity: 0.45;
+  }
+
+  25% {
+    opacity: 0.9;
+  }
+
+  50% {
+    transform:
+      translateX(1050px);
+    opacity: 1;
+  }
+
+  75% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform:
+      translateX(0);
+    opacity: 0.45;
+  }
+}
+
+/* =========================================================
+   SECOND GLOW
+========================================================= */
+
+@keyframes historyWhiteCardGlowSecond {
+  from {
+    transform:
+      translate(
+        0,
+        0
+      )
+      scale(1);
+  }
+
+  to {
+    transform:
+      translate(
+        -230px,
+        -20px
+      )
+      scale(1.25);
+  }
+}
+
+/* =========================================================
+   DARK MODE
+========================================================= */
+
+[data-theme="dark"]
+.history-item::before {
+  background:
+    rgba(61, 212, 145, 0.12);
+}
+
+[data-theme="dark"]
+.history-item::after {
+  background:
+    rgba(45, 194, 128, 0.08);
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  .history-item::before,
+  .history-item::after {
+    animation:
+      none !important;
+  }
+}/* =========================================================
+   HISTORY MOBILE FINAL POLISH
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .history-page,
+  .history-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .history-main {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .history-header h1,
+  .history-title {
+    font-size: 28px !important;
+    line-height: 1.04 !important;
+    letter-spacing: -1px !important;
+  }
+
+  .history-header p,
+  .history-description {
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+  }
+
+  /* Search */
+  .history-search,
+  .history-search-wrap,
+  .history-toolbar {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Refresh + count area */
+  .history-actions,
+  .history-toolbar-actions,
+  .history-top-actions {
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 10px !important;
+
+    flex-wrap: wrap !important;
+  }
+
+  /* Refresh button */
+  .history-refresh-button,
+  .history-refresh {
+    min-height: 40px !important;
+
+    padding: 0 13px !important;
+
+    border-radius: 10px !important;
+
+    font-size: 10px !important;
+  }
+
+  /* Analysis count badge */
+  .history-count,
+  .history-count-badge {
+    min-height: 34px !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+
+    padding: 0 12px !important;
+
+    border-radius: 999px !important;
+
+    font-size: 9px !important;
+  }
+
+  /* History card */
+  .history-item {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    padding: 15px !important;
+
+    border-radius: 14px !important;
+  }
+
+  /* Empty state */
+  .history-state-card {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    min-height: 210px !important;
+
+    padding: 24px 18px !important;
+
+    border-radius: 15px !important;
+  }
+
+  .history-state-card h3 {
+    font-size: 18px !important;
+  }
+
+  .history-state-card p {
+    font-size: 10px !important;
+    line-height: 1.6 !important;
+  }
+}
+
+@media (max-width: 430px) {
+
+  .history-header h1,
+  .history-title {
+    font-size: 26px !important;
+  }
+
+  .history-state-card {
+    min-height: 190px !important;
+  }
+}
