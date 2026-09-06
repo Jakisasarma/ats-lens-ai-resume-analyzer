@@ -507,13 +507,7 @@ const Login = () => {
               </div>
             )}
 
-            <div
-              className={`auth-google-wrap ${
-                theme === "light"
-                  ? "google-light"
-                  : "google-dark"
-              }`}
-            >
+            <div className="auth-google-wrap">
               <GoogleLogin
                 key={theme}
                 onSuccess={
@@ -522,11 +516,7 @@ const Login = () => {
                 onError={
                   handleGoogleError
                 }
-                theme={
-                  theme === "light"
-                    ? "outline"
-                    : "filled_black"
-                }
+                theme="outline"
                 size="large"
                 shape="rectangular"
                 text="continue_with"
