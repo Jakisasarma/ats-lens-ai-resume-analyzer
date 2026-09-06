@@ -1,5 +1,5 @@
 /* =========================================================
-   GOOGLE LOGIN - CLEAN PROFESSIONAL STYLE
+   GOOGLE LOGIN - FULL WIDTH PROFESSIONAL STYLE
 ========================================================= */
 
 .google-login-animated {
@@ -20,18 +20,18 @@
   position: relative;
 
   width: 100%;
-  min-height: 54px;
+  min-height: 56px;
 
-  padding: 5px 12px;
+  padding: 5px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border: 1px solid rgba(104, 136, 121, 0.28);
+  border: 1px solid rgba(72, 210, 147, 0.42);
   border-radius: 12px;
 
-  background: rgba(255, 255, 255, 0.015);
+  background: rgba(60, 200, 137, 0.03);
 
   overflow: hidden;
 
@@ -43,23 +43,23 @@
 }
 
 /* =========================================================
-   HOVER
+   HOVER EFFECT
 ========================================================= */
 
 .google-login-inner:hover {
-  border-color: rgba(72, 210, 147, 0.45);
+  border-color: rgba(72, 210, 147, 0.58);
 
-  background: rgba(60, 200, 137, 0.04);
+  background: rgba(60, 200, 137, 0.055);
 
   transform: translateY(-1px);
 
   box-shadow:
     0 10px 28px
-    rgba(17, 95, 61, 0.10);
+    rgba(17, 95, 61, 0.12);
 }
 
 /* =========================================================
-   SOFT MOVING GREEN LIGHT
+   SOFT MOVING GREEN GLOW
 ========================================================= */
 
 .google-login-inner::before {
@@ -67,15 +67,15 @@
 
   position: absolute;
 
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
 
-  top: -20px;
-  left: -110px;
+  top: -24px;
+  left: -120px;
 
   border-radius: 50%;
 
-  background: rgba(56, 204, 139, 0.10);
+  background: rgba(56, 204, 139, 0.11);
 
   filter: blur(22px);
 
@@ -95,7 +95,7 @@
   }
 
   50% {
-    transform: translateX(480px);
+    transform: translateX(520px);
     opacity: 0.55;
   }
 
@@ -113,14 +113,15 @@
   position: relative;
   z-index: 2;
 
-  width: auto !important;
+  width: 100% !important;
   max-width: 100% !important;
 
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 
-  margin: 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 /* =========================================================
@@ -130,13 +131,14 @@
 .google-login-inner iframe {
   display: block !important;
 
-  width: 320px !important;
+  width: 100% !important;
   max-width: 100% !important;
 
-  height: 44px !important;
-  min-height: 44px !important;
+  height: 46px !important;
+  min-height: 46px !important;
 
-  margin: 0 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
 
   border: 0 !important;
   border-radius: 9px !important;
@@ -147,13 +149,17 @@
 ========================================================= */
 
 [data-theme="light"] .google-login-inner {
-  border-color: #d7e1db;
+  border-color: rgba(32, 154, 104, 0.28);
   background: #ffffff;
 }
 
 [data-theme="light"] .google-login-inner:hover {
-  border-color: rgba(32, 154, 104, 0.38);
-  background: #f8fbf9;
+  border-color: rgba(32, 154, 104, 0.45);
+  background: #f7fbf9;
+
+  box-shadow:
+    0 10px 24px
+    rgba(32, 154, 104, 0.10);
 }
 
 /* =========================================================
@@ -161,15 +167,15 @@
 ========================================================= */
 
 [data-theme="dark"] .google-login-inner {
-  border-color: rgba(91, 127, 109, 0.30);
+  border-color: rgba(72, 210, 147, 0.38);
 
-  background: rgba(255, 255, 255, 0.015);
+  background: rgba(255, 255, 255, 0.012);
 }
 
 [data-theme="dark"] .google-login-inner:hover {
-  border-color: rgba(76, 213, 151, 0.42);
+  border-color: rgba(76, 213, 151, 0.58);
 
-  background: rgba(62, 198, 137, 0.035);
+  background: rgba(62, 198, 137, 0.05);
 }
 
 /* =========================================================
@@ -177,14 +183,26 @@
 ========================================================= */
 
 @media (max-width: 600px) {
+  .google-login-animated {
+    margin-bottom: 20px;
+  }
+
   .google-login-inner {
-    min-height: 52px;
-    padding: 4px 8px;
+    min-height: 54px;
+    padding: 4px;
+    border-radius: 11px;
+  }
+
+  .google-login-inner > div {
+    width: 100% !important;
   }
 
   .google-login-inner iframe {
     width: 100% !important;
-    max-width: 320px !important;
+    max-width: 100% !important;
+
+    height: 44px !important;
+    min-height: 44px !important;
   }
 }
 
