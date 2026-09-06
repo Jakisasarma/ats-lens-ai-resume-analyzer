@@ -2155,4 +2155,29 @@ input:checked
 
   transition:
     background-color 9999s ease-out 0s;
+}/* =========================================================
+   DARK MODE INPUT TEXT FIX
+========================================================= */
+
+[data-theme="dark"] .auth-input-wrap input {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+[data-theme="dark"] .auth-input-wrap input::placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+[data-theme="dark"] .auth-input-wrap input:-webkit-autofill,
+[data-theme="dark"] .auth-input-wrap input:-webkit-autofill:hover,
+[data-theme="dark"] .auth-input-wrap input:-webkit-autofill:focus,
+[data-theme="dark"] .auth-input-wrap input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+
+  -webkit-box-shadow:
+    0 0 0 1000px transparent inset !important;
+
+  box-shadow:
+    0 0 0 1000px transparent inset !important;
 }
