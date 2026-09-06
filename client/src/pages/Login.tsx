@@ -33,15 +33,11 @@ const REMEMBER_EMAIL_KEY =
   "atsLensRememberEmail";
 
 /* =========================================================
-   LOGIN PAGE
+   LOGIN
 ========================================================= */
 
 const Login = () => {
   const navigate = useNavigate();
-
-  /* =======================================================
-     STATE
-  ======================================================= */
 
   const [email, setEmail] =
     useState("");
@@ -59,18 +55,36 @@ const Login = () => {
     setRememberMe,
   ] = useState(true);
 
-  const [
-    loading,
-    setLoading,
-  ] = useState(false);
+  const [loading, setLoading] =
+    useState(false);
 
-  const [
-    error,
-    setError,
-  ] = useState("");
+  const [error, setError] =
+    useState("");
 
   /* =======================================================
-     CHECK EXISTING LOGIN
+     THEME
+  ======================================================= */
+
+  const [theme, setTheme] =
+    useState<"dark" | "light">(
+      () => {
+        const current =
+          document.documentElement
+            .dataset.theme;
+
+        return current === "light"
+          ? "light"
+          : "dark";
+      }
+    );
+
+  useEffect(() => {
+    document.documentElement.dataset.theme =
+      theme;
+  }, [theme]);
+
+  /* =======================================================
+     EXISTING AUTH
   ======================================================= */
 
   const existingToken =
@@ -82,40 +96,29 @@ const Login = () => {
     );
 
   /* =======================================================
-     LOAD REMEMBERED EMAIL
+     REMEMBERED EMAIL
   ======================================================= */
 
   useEffect(() => {
-    const rememberedEmail =
+    const remembered =
       localStorage.getItem(
         REMEMBER_EMAIL_KEY
       );
 
-    if (rememberedEmail) {
-      setEmail(
-        rememberedEmail
-      );
-
-      setRememberMe(
-        true
-      );
+    if (remembered) {
+      setEmail(remembered);
+      setRememberMe(true);
     }
   }, []);
 
   /* =======================================================
-     SAVE AUTH DATA
+     SAVE AUTH
   ======================================================= */
 
   const saveAuthData = (
     token: string,
     user: unknown
   ) => {
-    /*
-      Remove old auth data first
-      so local/session storage
-      never conflict.
-    */
-
     localStorage.removeItem(
       TOKEN_KEY
     );
@@ -135,12 +138,6 @@ const Login = () => {
     const userString =
       JSON.stringify(user);
 
-    /*
-      Remember Me ON:
-      browser close/open செய்தாலும்
-      login stay ஆகும்.
-    */
-
     if (rememberMe) {
       localStorage.setItem(
         TOKEN_KEY,
@@ -151,28 +148,21 @@ const Login = () => {
         USER_KEY,
         userString
       );
+    } else {
+      sessionStorage.setItem(
+        TOKEN_KEY,
+        token
+      );
 
-      return;
+      sessionStorage.setItem(
+        USER_KEY,
+        userString
+      );
     }
-
-    /*
-      Remember Me OFF:
-      current browser session மட்டும்.
-    */
-
-    sessionStorage.setItem(
-      TOKEN_KEY,
-      token
-    );
-
-    sessionStorage.setItem(
-      USER_KEY,
-      userString
-    );
   };
 
   /* =======================================================
-     NORMAL EMAIL LOGIN
+     NORMAL LOGIN
   ======================================================= */
 
   const handleSubmit = async (
@@ -187,9 +177,7 @@ const Login = () => {
     setError("");
 
     const cleanEmail =
-      email
-        .trim()
-        .toLowerCase();
+      email.trim().toLowerCase();
 
     if (!cleanEmail) {
       setError(
@@ -229,10 +217,6 @@ const Login = () => {
         return;
       }
 
-      /*
-        Remember email separately.
-      */
-
       if (rememberMe) {
         localStorage.setItem(
           REMEMBER_EMAIL_KEY,
@@ -249,12 +233,9 @@ const Login = () => {
         response.user
       );
 
-      navigate(
-        "/",
-        {
-          replace: true,
-        }
-      );
+      navigate("/", {
+        replace: true,
+      });
     } catch (loginError) {
       console.error(
         "Login error:",
@@ -272,7 +253,7 @@ const Login = () => {
   };
 
   /* =======================================================
-     GOOGLE LOGIN SUCCESS
+     GOOGLE LOGIN
   ======================================================= */
 
   const handleGoogleSuccess =
@@ -291,7 +272,7 @@ const Login = () => {
 
       if (!credential) {
         setError(
-          "Google sign in did not return a valid credential."
+          "Google sign in failed."
         );
 
         return;
@@ -318,12 +299,6 @@ const Login = () => {
           return;
         }
 
-        /*
-          If Google user has an email
-          and Remember Me is enabled,
-          remember that email too.
-        */
-
         if (
           rememberMe &&
           response.user.email
@@ -345,15 +320,10 @@ const Login = () => {
           response.user
         );
 
-        navigate(
-          "/",
-          {
-            replace: true,
-          }
-        );
-      } catch (
-        googleError
-      ) {
+        navigate("/", {
+          replace: true,
+        });
+      } catch (googleError) {
         console.error(
           "Google login error:",
           googleError
@@ -369,14 +339,10 @@ const Login = () => {
       }
     };
 
-  /* =======================================================
-     GOOGLE LOGIN ERROR
-  ======================================================= */
-
   const handleGoogleError =
     () => {
       setError(
-        "Google sign in was not completed. Please try again."
+        "Google sign in was not completed."
       );
     };
 
@@ -399,34 +365,123 @@ const Login = () => {
 
   return (
     <main className="auth-page">
+      {/* ===============================================
+          BACKGROUND ANIMATION
+      =============================================== */}
+
+      <div
+        className="auth-background-animation"
+        aria-hidden="true"
+      >
+        <span className="auth-bg-orb orb-1" />
+        <span className="auth-bg-orb orb-2" />
+        <span className="auth-bg-orb orb-3" />
+        <span className="auth-bg-orb orb-4" />
+
+        <span className="auth-bg-line line-1" />
+        <span className="auth-bg-line line-2" />
+        <span className="auth-bg-line line-3" />
+      </div>
+
+      {/* ===============================================
+          THEME
+      =============================================== */}
+
+      <button
+        type="button"
+        className="auth-theme-button"
+        aria-label="Change theme"
+        onClick={() =>
+          setTheme(
+            theme === "dark"
+              ? "light"
+              : "dark"
+          )
+        }
+      >
+        {theme === "dark"
+          ? "☀"
+          : "☾"}
+      </button>
+
+      {/* ===============================================
+          MAIN SHELL
+      =============================================== */}
+
       <section className="auth-shell">
-        {/* =================================================
-            LEFT SIDE
-        ================================================= */}
+        {/* =============================================
+            LEFT VISUAL
+        ============================================= */}
 
-        <div className="auth-brand-panel">
-          <div className="auth-brand-top">
-            <div className="auth-brand-logo">
-              <div className="auth-brand-icon">
-                <span>
-                  ⌗
-                </span>
-              </div>
+        <div className="auth-visual">
+          <div className="auth-brand">
+            <div className="auth-brand-icon">
+              {/* ATS Lens icon */}
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M7 3H5a2 2 0 0 0-2 2v2"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
 
-              <div>
-                <h2>
-                  ATS LENS
-                </h2>
+                <path
+                  d="M17 3h2a2 2 0 0 1 2 2v2"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
 
-                <p>
-                  AI Resume Analyzer
-                </p>
-              </div>
+                <path
+                  d="M7 21H5a2 2 0 0 1-2-2v-2"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+
+                <path
+                  d="M17 21h2a2 2 0 0 0 2-2v-2"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+
+                <circle
+                  cx="12"
+                  cy="10"
+                  r="2.3"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                />
+
+                <path
+                  d="M8.7 16c.8-1.6 1.9-2.4 3.3-2.4s2.5.8 3.3 2.4"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            <div>
+              <strong>
+                ATS LENS
+              </strong>
+
+              <span>
+                AI Resume Analyzer
+              </span>
             </div>
           </div>
 
-          <div className="auth-brand-content">
-            <span className="auth-eyebrow">
+          <div className="auth-visual-content">
+            <span className="auth-kicker">
               RESUME INTELLIGENCE
             </span>
 
@@ -453,21 +508,25 @@ const Login = () => {
             </p>
           </div>
 
-          <div className="auth-brand-footer">
+          <div className="auth-visual-footer">
             AI-powered resume
             intelligence for
             better applications.
           </div>
         </div>
 
-        {/* =================================================
-            RIGHT SIDE
-        ================================================= */}
+        {/* =============================================
+            RIGHT PANEL
+        ============================================= */}
 
-        <div className="auth-form-panel">
-          <div className="auth-form-content">
-            <div className="auth-heading">
-              <span className="auth-eyebrow">
+        <div className="auth-panel">
+          <div className="auth-form-wrap">
+            {/* =========================================
+                HEADING
+            ========================================= */}
+
+            <div className="auth-form-heading">
+              <span>
                 WELCOME BACK
               </span>
 
@@ -482,60 +541,53 @@ const Login = () => {
               </p>
             </div>
 
-            {/* =============================================
-                ERROR MESSAGE
-            ============================================= */}
+            {/* =========================================
+                ERROR
+            ========================================= */}
 
             {error && (
               <div
-                className="auth-message auth-message-error"
+                className="auth-error"
                 role="alert"
               >
                 {error}
               </div>
             )}
 
-            {/* =============================================
+            {/* =========================================
                 GOOGLE LOGIN
-            ============================================= */}
+            ========================================= */}
 
-            <div className="google-login-animated">
-              <div className="google-login-inner">
-                <GoogleLogin
-                  onSuccess={
-                    handleGoogleSuccess
-                  }
-                  onError={
-                    handleGoogleError
-                  }
-                  theme="filled_black"
-                  size="large"
-                  shape="rectangular"
-                  text="continue_with"
-                  width="420"
-                  useOneTap={false}
-                  cancel_on_tap_outside={
-                    true
-                  }
-                />
-              </div>
+            <div className="auth-google-wrap">
+              <GoogleLogin
+                onSuccess={
+                  handleGoogleSuccess
+                }
+                onError={
+                  handleGoogleError
+                }
+                theme="filled_black"
+                size="large"
+                shape="rectangular"
+                text="continue_with"
+                width="400"
+                useOneTap={false}
+              />
             </div>
 
-            {/* =============================================
-                DIVIDER
-            ============================================= */}
+            {/* =========================================
+                OR
+            ========================================= */}
 
             <div className="auth-divider">
-              <span />
-              <p>
+              <span>
                 OR
-              </p>
-              <span />
+              </span>
             </div>
 
-            {/* =============================================
-                LOGIN FORM
-            ============================================= */}
+            {/* =========================================
+                FORM
+            ========================================= */}
 
             <form
               className="auth-form"
@@ -548,18 +600,39 @@ const Login = () => {
 
               <div className="auth-field">
                 <label
-                  htmlFor="login-email"
+                  htmlFor="email"
                 >
                   Email Address
                 </label>
 
                 <div className="auth-input-wrap">
-                  <span className="auth-input-icon">
-                    ✉
-                  </span>
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="3"
+                      y="5"
+                      width="18"
+                      height="14"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                    />
+
+                    <path
+                      d="m4 7 8 6 8-6"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                    />
+                  </svg>
 
                   <input
-                    id="login-email"
+                    id="email"
                     type="email"
                     name="username"
                     autoComplete="username"
@@ -577,12 +650,8 @@ const Login = () => {
                           .value
                       );
 
-                      if (
-                        error
-                      ) {
-                        setError(
-                          ""
-                        );
+                      if (error) {
+                        setError("");
                       }
                     }}
                   />
@@ -593,18 +662,39 @@ const Login = () => {
 
               <div className="auth-field">
                 <label
-                  htmlFor="login-password"
+                  htmlFor="password"
                 >
                   Password
                 </label>
 
                 <div className="auth-input-wrap">
-                  <span className="auth-input-icon">
-                    ♙
-                  </span>
+                  <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="5"
+                      y="10"
+                      width="14"
+                      height="11"
+                      rx="2"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                    />
+
+                    <path
+                      d="M8 10V7a4 4 0 0 1 8 0v3"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                      strokeLinecap="round"
+                    />
+                  </svg>
 
                   <input
-                    id="login-password"
+                    id="password"
                     type={
                       showPassword
                         ? "text"
@@ -613,9 +703,7 @@ const Login = () => {
                     name="password"
                     autoComplete="current-password"
                     placeholder="Enter your password"
-                    value={
-                      password
-                    }
+                    value={password}
                     disabled={
                       loading
                     }
@@ -628,12 +716,8 @@ const Login = () => {
                           .value
                       );
 
-                      if (
-                        error
-                      ) {
-                        setError(
-                          ""
-                        );
+                      if (error) {
+                        setError("");
                       }
                     }}
                   />
@@ -662,36 +746,36 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* REMEMBER ME */}
+              {/* OPTIONS */}
 
-              <label className="auth-remember">
-                <input
-                  type="checkbox"
-                  checked={
-                    rememberMe
-                  }
-                  disabled={
-                    loading
-                  }
-                  onChange={(
-                    event
-                  ) =>
-                    setRememberMe(
+              <div className="auth-options">
+                <label className="remember-option">
+                  <input
+                    type="checkbox"
+                    checked={
+                      rememberMe
+                    }
+                    disabled={
+                      loading
+                    }
+                    onChange={(
                       event
-                        .target
-                        .checked
-                    )
-                  }
-                />
+                    ) =>
+                      setRememberMe(
+                        event
+                          .target
+                          .checked
+                      )
+                    }
+                  />
 
-                <span className="auth-toggle">
-                  <span />
-                </span>
+                  <span className="remember-toggle" />
 
-                <span className="auth-remember-text">
-                  Remember Me
-                </span>
-              </label>
+                  <span>
+                    Remember Me
+                  </span>
+                </label>
+              </div>
 
               {/* SIGN IN */}
 
@@ -708,11 +792,11 @@ const Login = () => {
               </button>
             </form>
 
-            {/* =============================================
-                REGISTER LINK
-            ============================================= */}
+            {/* =========================================
+                REGISTER
+            ========================================= */}
 
-            <div className="auth-bottom-link">
+            <div className="auth-switch">
               <span>
                 Don&apos;t have
                 an account?
