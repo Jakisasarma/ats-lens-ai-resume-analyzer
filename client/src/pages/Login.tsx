@@ -1,61 +1,53 @@
 import {
   useEffect,
   useState,
+  type FormEvent,
 } from "react";
-
-import type {
-  FormEvent,
-} from "react";
-
-import {
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
 
 import {
   GoogleLogin,
+  type CredentialResponse,
 } from "@react-oauth/google";
 
 import {
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  Mail,
-  Moon,
-  ScanSearch,
-  Sun,
-} from "lucide-react";
+  Link,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 
 import {
   googleLoginUser,
   loginUser,
 } from "../services/authApi";
 
-import {
-  useTheme,
-} from "../context/ThemeContext";
-
 import "../styles/Auth.css";
 import "../styles/GoogleLogin.css";
 
+/* =========================================================
+   STORAGE KEYS
+========================================================= */
+
+const TOKEN_KEY = "atsLensToken";
+const USER_KEY = "atsLensUser";
+const REMEMBER_EMAIL_KEY =
+  "atsLensRememberEmail";
+
+/* =========================================================
+   LOGIN PAGE
+========================================================= */
+
 const Login = () => {
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const {
-    theme,
-    toggleTheme,
-  } = useTheme();
+  /* =======================================================
+     STATE
+  ======================================================= */
 
-  const [
-    email,
-    setEmail,
-  ] = useState("");
+  const [email, setEmail] =
+    useState("");
 
-  const [
-    password,
-    setPassword,
-  ] = useState("");
+  const [password, setPassword] =
+    useState("");
 
   const [
     showPassword,
@@ -77,26 +69,26 @@ const Login = () => {
     setError,
   ] = useState("");
 
-  /* =========================================================
-     EXISTING AUTH
-  ========================================================= */
+  /* =======================================================
+     CHECK EXISTING LOGIN
+  ======================================================= */
 
   const existingToken =
     localStorage.getItem(
-      "atsLensToken"
+      TOKEN_KEY
     ) ||
     sessionStorage.getItem(
-      "atsLensToken"
+      TOKEN_KEY
     );
 
-  /* =========================================================
+  /* =======================================================
      LOAD REMEMBERED EMAIL
-  ========================================================= */
+  ======================================================= */
 
   useEffect(() => {
     const rememberedEmail =
       localStorage.getItem(
-        "atsLensRememberEmail"
+        REMEMBER_EMAIL_KEY
       );
 
     if (rememberedEmail) {
@@ -104,176 +96,209 @@ const Login = () => {
         rememberedEmail
       );
 
-      setRememberMe(true);
+      setRememberMe(
+        true
+      );
     }
   }, []);
 
-  /* =========================================================
+  /* =======================================================
      SAVE AUTH DATA
-  ========================================================= */
+  ======================================================= */
 
   const saveAuthData = (
     token: string,
     user: unknown
   ) => {
-    const userValue =
-      JSON.stringify(
-        user ?? {}
-      );
+    /*
+      Remove old auth data first
+      so local/session storage
+      never conflict.
+    */
+
+    localStorage.removeItem(
+      TOKEN_KEY
+    );
+
+    localStorage.removeItem(
+      USER_KEY
+    );
+
+    sessionStorage.removeItem(
+      TOKEN_KEY
+    );
+
+    sessionStorage.removeItem(
+      USER_KEY
+    );
+
+    const userString =
+      JSON.stringify(user);
+
+    /*
+      Remember Me ON:
+      browser close/open செய்தாலும்
+      login stay ஆகும்.
+    */
 
     if (rememberMe) {
       localStorage.setItem(
-        "atsLensToken",
+        TOKEN_KEY,
         token
       );
 
       localStorage.setItem(
-        "atsLensUser",
-        userValue
+        USER_KEY,
+        userString
       );
 
-      sessionStorage.removeItem(
-        "atsLensToken"
+      return;
+    }
+
+    /*
+      Remember Me OFF:
+      current browser session மட்டும்.
+    */
+
+    sessionStorage.setItem(
+      TOKEN_KEY,
+      token
+    );
+
+    sessionStorage.setItem(
+      USER_KEY,
+      userString
+    );
+  };
+
+  /* =======================================================
+     NORMAL EMAIL LOGIN
+  ======================================================= */
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (loading) {
+      return;
+    }
+
+    setError("");
+
+    const cleanEmail =
+      email
+        .trim()
+        .toLowerCase();
+
+    if (!cleanEmail) {
+      setError(
+        "Please enter your email address."
       );
 
-      sessionStorage.removeItem(
-        "atsLensUser"
-      );
-    } else {
-      sessionStorage.setItem(
-        "atsLensToken",
-        token
+      return;
+    }
+
+    if (!password) {
+      setError(
+        "Please enter your password."
       );
 
-      sessionStorage.setItem(
-        "atsLensUser",
-        userValue
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response =
+        await loginUser(
+          cleanEmail,
+          password
+        );
+
+      if (
+        !response.success ||
+        !response.token ||
+        !response.user
+      ) {
+        setError(
+          response.message ||
+            "Unable to sign in."
+        );
+
+        return;
+      }
+
+      /*
+        Remember email separately.
+      */
+
+      if (rememberMe) {
+        localStorage.setItem(
+          REMEMBER_EMAIL_KEY,
+          cleanEmail
+        );
+      } else {
+        localStorage.removeItem(
+          REMEMBER_EMAIL_KEY
+        );
+      }
+
+      saveAuthData(
+        response.token,
+        response.user
       );
 
-      localStorage.removeItem(
-        "atsLensToken"
+      navigate(
+        "/",
+        {
+          replace: true,
+        }
+      );
+    } catch (loginError) {
+      console.error(
+        "Login error:",
+        loginError
       );
 
-      localStorage.removeItem(
-        "atsLensUser"
+      setError(
+        loginError instanceof Error
+          ? loginError.message
+          : "Network Error"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
-  /* =========================================================
-     NORMAL LOGIN
-  ========================================================= */
-
-  const handleSubmit =
-    async (
-      event:
-        FormEvent<HTMLFormElement>
-    ) => {
-      event.preventDefault();
-
-      try {
-        setLoading(true);
-        setError("");
-
-        const normalizedEmail =
-          email
-            .trim()
-            .toLowerCase();
-
-        if (
-          !normalizedEmail ||
-          !password.trim()
-        ) {
-          setError(
-            "Please enter your email and password."
-          );
-
-          return;
-        }
-
-        const response =
-          await loginUser(
-            normalizedEmail,
-            password
-          );
-
-        if (
-          !response?.success
-        ) {
-          throw new Error(
-            response?.message ||
-              "Login failed."
-          );
-        }
-
-        if (!response.token) {
-          throw new Error(
-            "Authentication token was not returned."
-          );
-        }
-
-        saveAuthData(
-          response.token,
-          response.user
-        );
-
-        if (rememberMe) {
-          localStorage.setItem(
-            "atsLensRememberEmail",
-            normalizedEmail
-          );
-        } else {
-          localStorage.removeItem(
-            "atsLensRememberEmail"
-          );
-        }
-
-        /* LOGIN -> HOMEPAGE */
-
-        navigate(
-          "/",
-          {
-            replace: true,
-          }
-        );
-      } catch (err: any) {
-        console.error(
-          "Login error:",
-          err
-        );
-
-        setError(
-          err?.response?.data
-            ?.message ||
-            err?.message ||
-            "Unable to login. Please try again."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  /* =========================================================
-     GOOGLE LOGIN
-  ========================================================= */
+  /* =======================================================
+     GOOGLE LOGIN SUCCESS
+  ======================================================= */
 
   const handleGoogleSuccess =
     async (
-      credentialResponse: any
+      credentialResponse:
+        CredentialResponse
     ) => {
+      if (loading) {
+        return;
+      }
+
+      setError("");
+
+      const credential =
+        credentialResponse.credential;
+
+      if (!credential) {
+        setError(
+          "Google sign in did not return a valid credential."
+        );
+
+        return;
+      }
+
       try {
         setLoading(true);
-        setError("");
-
-        const credential =
-          credentialResponse
-            ?.credential;
-
-        if (!credential) {
-          throw new Error(
-            "Google credential not received."
-          );
-        }
 
         const response =
           await googleLoginUser(
@@ -281,17 +306,37 @@ const Login = () => {
           );
 
         if (
-          !response?.success
+          !response.success ||
+          !response.token ||
+          !response.user
         ) {
-          throw new Error(
-            response?.message ||
-              "Google login failed."
+          setError(
+            response.message ||
+              "Google sign in failed."
+          );
+
+          return;
+        }
+
+        /*
+          If Google user has an email
+          and Remember Me is enabled,
+          remember that email too.
+        */
+
+        if (
+          rememberMe &&
+          response.user.email
+        ) {
+          localStorage.setItem(
+            REMEMBER_EMAIL_KEY,
+            response.user.email
           );
         }
 
-        if (!response.token) {
-          throw new Error(
-            "Authentication token was not returned."
+        if (!rememberMe) {
+          localStorage.removeItem(
+            REMEMBER_EMAIL_KEY
           );
         }
 
@@ -300,34 +345,44 @@ const Login = () => {
           response.user
         );
 
-        /* GOOGLE LOGIN -> HOMEPAGE */
-
         navigate(
           "/",
           {
             replace: true,
           }
         );
-      } catch (err: any) {
+      } catch (
+        googleError
+      ) {
         console.error(
           "Google login error:",
-          err
+          googleError
         );
 
         setError(
-          err?.response?.data
-            ?.message ||
-            err?.message ||
-            "Google login failed. Please try again."
+          googleError instanceof Error
+            ? googleError.message
+            : "Network Error"
         );
       } finally {
         setLoading(false);
       }
     };
 
-  /* =========================================================
+  /* =======================================================
+     GOOGLE LOGIN ERROR
+  ======================================================= */
+
+  const handleGoogleError =
+    () => {
+      setError(
+        "Google sign in was not completed. Please try again."
+      );
+    };
+
+  /* =======================================================
      ALREADY LOGGED IN
-  ========================================================= */
+  ======================================================= */
 
   if (existingToken) {
     return (
@@ -338,125 +393,82 @@ const Login = () => {
     );
   }
 
+  /* =======================================================
+     UI
+  ======================================================= */
+
   return (
-    <div className="auth-page">
+    <main className="auth-page">
+      <section className="auth-shell">
+        {/* =================================================
+            LEFT SIDE
+        ================================================= */}
 
-      {/* =====================================================
-          BACKGROUND ANIMATION
-      ====================================================== */}
+        <div className="auth-brand-panel">
+          <div className="auth-brand-top">
+            <div className="auth-brand-logo">
+              <div className="auth-brand-icon">
+                <span>
+                  ⌗
+                </span>
+              </div>
 
-      <div
-        className="auth-background-animation"
-        aria-hidden="true"
-      >
-        <span className="auth-bg-orb orb-1" />
-        <span className="auth-bg-orb orb-2" />
-        <span className="auth-bg-orb orb-3" />
-        <span className="auth-bg-orb orb-4" />
+              <div>
+                <h2>
+                  ATS LENS
+                </h2>
 
-        <span className="auth-bg-line line-1" />
-        <span className="auth-bg-line line-2" />
-        <span className="auth-bg-line line-3" />
-      </div>
-
-      {/* =====================================================
-          THEME BUTTON
-      ====================================================== */}
-
-      <button
-        type="button"
-        className="auth-theme-button"
-        onClick={
-          toggleTheme
-        }
-        aria-label="Toggle theme"
-      >
-        {theme === "dark" ? (
-          <Sun size={18} />
-        ) : (
-          <Moon size={18} />
-        )}
-      </button>
-
-      {/* =====================================================
-          AUTH SHELL
-      ====================================================== */}
-
-      <div className="auth-shell">
-
-        {/* ===================================================
-            LEFT PANEL
-        ==================================================== */}
-
-        <section className="auth-visual">
-
-          <div className="auth-brand">
-
-            <div className="auth-brand-icon">
-
-              <ScanSearch
-                size={23}
-              />
-
+                <p>
+                  AI Resume Analyzer
+                </p>
+              </div>
             </div>
-
-            <div>
-
-              <strong>
-                ATS LENS
-              </strong>
-
-              <span>
-                AI Resume Analyzer
-              </span>
-
-            </div>
-
           </div>
 
-          <div className="auth-visual-content">
-
-            <span className="auth-kicker">
-              Resume Intelligence
+          <div className="auth-brand-content">
+            <span className="auth-eyebrow">
+              RESUME INTELLIGENCE
             </span>
 
             <h1>
-              See your resume
-              through an ATS lens.
+              See your
+              <br />
+              resume
+              <br />
+              through an ATS
+              <br />
+              lens.
             </h1>
 
             <p>
-              Analyze ATS compatibility,
-              identify missing skills,
-              understand resume risks,
-              and improve your application
-              with evidence-based insights.
+              Analyze ATS
+              compatibility,
+              identify missing
+              skills, understand
+              resume risks, and
+              improve your
+              application with
+              evidence-based
+              insights.
             </p>
-
           </div>
 
-          <div className="auth-visual-footer">
-
+          <div className="auth-brand-footer">
             AI-powered resume
-            intelligence for better
-            applications.
-
+            intelligence for
+            better applications.
           </div>
+        </div>
 
-        </section>
+        {/* =================================================
+            RIGHT SIDE
+        ================================================= */}
 
-        {/* ===================================================
-            RIGHT LOGIN PANEL
-        ==================================================== */}
-
-        <section className="auth-panel">
-
-          <div className="auth-form-wrap">
-
-            <div className="auth-form-heading">
-
-              <span>
-                Welcome Back
+        <div className="auth-form-panel">
+          <div className="auth-form-content">
+            <div className="auth-heading">
+              <span className="auth-eyebrow">
+                WELCOME BACK
               </span>
 
               <h2>
@@ -464,222 +476,224 @@ const Login = () => {
               </h2>
 
               <p>
-                Continue your resume
-                analysis workspace.
+                Continue your
+                resume analysis
+                workspace.
               </p>
-
             </div>
 
-            {/* ERROR */}
+            {/* =============================================
+                ERROR MESSAGE
+            ============================================= */}
 
             {error && (
               <div
-                className="auth-error"
+                className="auth-message auth-message-error"
                 role="alert"
               >
                 {error}
               </div>
             )}
 
-            {/* =================================================
+            {/* =============================================
                 GOOGLE LOGIN
-            ================================================== */}
+            ============================================= */}
 
             <div className="google-login-animated">
-
               <div className="google-login-inner">
-
                 <GoogleLogin
                   onSuccess={
                     handleGoogleSuccess
                   }
-                  onError={() =>
-                    setError(
-                      "Google login failed. Please try again."
-                    )
+                  onError={
+                    handleGoogleError
                   }
-                  useOneTap={false}
-                  theme={
-                    theme === "dark"
-                      ? "filled_black"
-                      : "outline"
-                  }
+                  theme="filled_black"
                   size="large"
                   shape="rectangular"
-                  text="signin_with"
+                  text="continue_with"
+                  width="420"
+                  useOneTap={false}
+                  cancel_on_tap_outside={
+                    true
+                  }
                 />
-
               </div>
-
             </div>
 
-            {/* =================================================
+            {/* =============================================
                 DIVIDER
-            ================================================== */}
+            ============================================= */}
 
             <div className="auth-divider">
-
-              <span>
+              <span />
+              <p>
                 OR
-              </span>
-
+              </p>
+              <span />
             </div>
 
-            {/* =================================================
+            {/* =============================================
                 LOGIN FORM
-            ================================================== */}
+            ============================================= */}
 
             <form
               className="auth-form"
               onSubmit={
                 handleSubmit
               }
+              noValidate
             >
-
-              {/* =================================================
-                  EMAIL
-              ================================================== */}
+              {/* EMAIL */}
 
               <div className="auth-field">
-
                 <label
-                  htmlFor="ats-lens-email"
+                  htmlFor="login-email"
                 >
                   Email Address
                 </label>
 
                 <div className="auth-input-wrap">
-
-                  <Mail
-                    size={17}
-                  />
+                  <span className="auth-input-icon">
+                    ✉
+                  </span>
 
                   <input
-                    id="ats-lens-email"
-                    name="username"
+                    id="login-email"
                     type="email"
-                    value={email}
-                    onChange={(event) =>
-                      setEmail(
-                        event.target.value
-                      )
-                    }
-                    placeholder="Enter your email"
+                    name="username"
                     autoComplete="username"
-                    autoCorrect="off"
-                    autoCapitalize="none"
-                    spellCheck={false}
+                    placeholder="Enter your email"
+                    value={email}
                     disabled={
                       loading
                     }
+                    onChange={(
+                      event
+                    ) => {
+                      setEmail(
+                        event
+                          .target
+                          .value
+                      );
+
+                      if (
+                        error
+                      ) {
+                        setError(
+                          ""
+                        );
+                      }
+                    }}
                   />
-
                 </div>
-
               </div>
 
-              {/* =================================================
-                  PASSWORD
-              ================================================== */}
+              {/* PASSWORD */}
 
               <div className="auth-field">
-
                 <label
-                  htmlFor="ats-lens-password"
+                  htmlFor="login-password"
                 >
                   Password
                 </label>
 
                 <div className="auth-input-wrap">
-
-                  <LockKeyhole
-                    size={17}
-                  />
+                  <span className="auth-input-icon">
+                    ♙
+                  </span>
 
                   <input
-                    id="ats-lens-password"
-                    name="password"
+                    id="login-password"
                     type={
                       showPassword
                         ? "text"
                         : "password"
                     }
-                    value={password}
-                    onChange={(event) =>
-                      setPassword(
-                        event.target.value
-                      )
-                    }
-                    placeholder="Enter your password"
+                    name="password"
                     autoComplete="current-password"
+                    placeholder="Enter your password"
+                    value={
+                      password
+                    }
                     disabled={
                       loading
                     }
+                    onChange={(
+                      event
+                    ) => {
+                      setPassword(
+                        event
+                          .target
+                          .value
+                      );
+
+                      if (
+                        error
+                      ) {
+                        setError(
+                          ""
+                        );
+                      }
+                    }}
                   />
 
                   <button
                     type="button"
                     className="auth-password-toggle"
-                    onClick={() =>
-                      setShowPassword(
-                        (previous) =>
-                          !previous
-                      )
-                    }
                     aria-label={
                       showPassword
                         ? "Hide password"
                         : "Show password"
                     }
-                  >
-                    {showPassword ? (
-                      <EyeOff
-                        size={17}
-                      />
-                    ) : (
-                      <Eye
-                        size={17}
-                      />
-                    )}
-                  </button>
-
-                </div>
-
-              </div>
-
-              {/* =================================================
-                  REMEMBER ME
-              ================================================== */}
-
-              <div className="auth-options">
-
-                <label className="remember-option">
-
-                  <input
-                    type="checkbox"
-                    checked={
-                      rememberMe
-                    }
-                    onChange={(event) =>
-                      setRememberMe(
-                        event.target.checked
+                    onClick={() =>
+                      setShowPassword(
+                        (
+                          current
+                        ) =>
+                          !current
                       )
                     }
-                  />
-
-                  <span className="remember-toggle" />
-
-                  <span>
-                    Remember Me
-                  </span>
-
-                </label>
-
+                  >
+                    {showPassword
+                      ? "◉"
+                      : "◎"}
+                  </button>
+                </div>
               </div>
 
-              {/* =================================================
-                  SIGN IN
-              ================================================== */}
+              {/* REMEMBER ME */}
+
+              <label className="auth-remember">
+                <input
+                  type="checkbox"
+                  checked={
+                    rememberMe
+                  }
+                  disabled={
+                    loading
+                  }
+                  onChange={(
+                    event
+                  ) =>
+                    setRememberMe(
+                      event
+                        .target
+                        .checked
+                    )
+                  }
+                />
+
+                <span className="auth-toggle">
+                  <span />
+                </span>
+
+                <span className="auth-remember-text">
+                  Remember Me
+                </span>
+              </label>
+
+              {/* SIGN IN */}
 
               <button
                 type="submit"
@@ -689,43 +703,29 @@ const Login = () => {
                 }
               >
                 {loading
-                  ? "Signing in..."
+                  ? "Signing In..."
                   : "Sign In"}
               </button>
-
             </form>
 
-            {/* =================================================
-                CREATE ACCOUNT
-            ================================================== */}
+            {/* =============================================
+                REGISTER LINK
+            ============================================= */}
 
-            <div className="auth-switch">
-
+            <div className="auth-bottom-link">
               <span>
-                Don't have an account?
+                Don&apos;t have
+                an account?
               </span>
 
-              <button
-                type="button"
-                className="auth-link-button"
-                onClick={() =>
-                  navigate(
-                    "/register"
-                  )
-                }
-              >
+              <Link to="/register">
                 Create Account
-              </button>
-
+              </Link>
             </div>
-
           </div>
-
-        </section>
-
-      </div>
-
-    </div>
+        </div>
+      </section>
+    </main>
   );
 };
 
