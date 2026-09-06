@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import os from "os";
 
 import {
   uploadResume,
@@ -23,11 +24,26 @@ const router = express.Router();
    UPLOAD DIRECTORY
 ========================================================= */
 
+/*
+  Local development:
+  <project>/server/uploads
+
+  Production / hosted container:
+  /tmp/ats-lens-uploads
+
+  /tmp is writable on most container hosting platforms.
+*/
+
 const uploadDirectory =
-  path.join(
-    process.cwd(),
-    "uploads"
-  );
+  process.env.NODE_ENV === "production"
+    ? path.join(
+        os.tmpdir(),
+        "ats-lens-uploads"
+      )
+    : path.join(
+        process.cwd(),
+        "uploads"
+      );
 
 /* =========================================================
    CREATE UPLOAD DIRECTORY IF NOT EXISTS
